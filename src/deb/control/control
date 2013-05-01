@@ -1,0 +1,9 @@
+Package: [[name]]
+Version: [[version]]-[[buildNumber]]
+Section: misc
+Priority: extra
+Architecture: all
+Maintainer: [[deb.maintainer]]
+Description: [[name]]
+Distribution: development
+Depends:
