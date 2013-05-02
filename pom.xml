@@ -17,10 +17,11 @@
     <maven.version>3.0.3</maven.version>
     <scala.version>2.9.2</scala.version>
 
-    <storm.version>0.8.1-csd-6</storm.version>
     <jvm.mem>512m</jvm.mem>
 
+    <storm.version>0.8.1-csd-6</storm.version>
     <slf4j.version>1.7.2</slf4j.version>
+    <metrics.version>2.1.5</metrics.version>
 
     <deb.install.path>/usr/share/metrics_storm</deb.install.path>
     <deb.architecture>all</deb.architecture>
@@ -60,13 +61,19 @@
     <dependency>
       <groupId>com.yammer.metrics</groupId>
       <artifactId>metrics-core</artifactId>
-      <version>2.1.2</version>
+      <version>${metrics.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.yammer.metrics</groupId>
       <artifactId>metrics-servlet</artifactId>
-      <version>2.1.2</version>
+      <version>${metrics.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.yammer.metrics</groupId>
+      <artifactId>metrics-graphite</artifactId>
+      <version>${metrics.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

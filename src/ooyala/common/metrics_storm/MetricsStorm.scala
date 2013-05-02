@@ -6,11 +6,13 @@ import java.util.concurrent.TimeUnit
 
 import backtype.storm.task.TopologyContext
 import com.yammer.metrics.util.DeadlockHealthCheck
-import com.yammer.metrics.reporting.{MetricsServlet, ThreadDumpServlet, HealthCheckServlet}
+import com.yammer.metrics.reporting.{GraphiteReporter, MetricsServlet, ThreadDumpServlet,
+    HealthCheckServlet}
 import com.yammer.metrics.{Metrics, HealthChecks}
 import com.yammer.metrics.core.{MetricName, Meter}
 import org.mortbay.jetty.Server
 import org.mortbay.jetty.servlet.Context
+import scala.collection.JavaConversions._
 
 // TODO(ev): Move this into ScalaStorm
 package object config {
@@ -28,6 +30,13 @@ package object config {
       else
         Nil
     }
+
+    def getInt[T](key: String): Option[Int] =
+      mapAsScalaMap(accessibleConfig).get(key).map(_.asInstanceOf[Int])
+
+    def getString[T](key: String): Option[String] =
+      mapAsScalaMap(accessibleConfig).get(key).map(_.asInstanceOf[String])
+
   }
 
   implicit def toScalaStormConfig(config: StormConfigMap) = new StormConfig(config)
@@ -68,6 +77,18 @@ object MetricsStorm {
     val portList = conf.getIntList("worker.webconsole.ports")
     val port = if (portIndex >= 0 && portList.length > portIndex) portList(portIndex) else DefaultPort
     initWebConsole(port)
+  }
+
+  def connectReporters(conf: StormConfigMap, context: TopologyContext) {
+    val graphiteHost = conf.getString("metrics.graphite.host")
+    val graphitePort = conf.getInt("metrics.graphite.port")
+    val graphitePrefix = conf.getString("metrics.graphite.prefix")
+
+    if (graphiteHost.isDefined && graphitePort.isDefined) {
+      val reporter = new GraphiteReporter(graphiteHost.get, graphitePort.get,
+        graphitePrefix.getOrElse(""))
+      reporter.start(1, TimeUnit.SECONDS)
+    }
   }
 
   /**
