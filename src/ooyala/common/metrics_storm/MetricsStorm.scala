@@ -32,7 +32,10 @@ package object config {
     }
 
     def getInt[T](key: String): Option[Int] =
-      mapAsScalaMap(accessibleConfig).get(key).map(_.asInstanceOf[Int])
+      mapAsScalaMap(accessibleConfig).get(key).map {
+        case l: java.lang.Long => l.toInt
+        case i: java.lang.Integer => i
+      }
 
     def getString[T](key: String): Option[String] =
       mapAsScalaMap(accessibleConfig).get(key).map(_.asInstanceOf[String])
