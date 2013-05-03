@@ -81,13 +81,12 @@ object MetricsStorm {
 
   def connectReporters(conf: StormConfigMap, context: TopologyContext) {
     val graphiteHost = conf.getString("metrics.graphite.host")
-    val graphitePort = conf.getInt("metrics.graphite.port")
-    val graphitePrefix = conf.getString("metrics.graphite.prefix")
-
-    if (graphiteHost.isDefined && graphitePort.isDefined) {
-      val reporter = new GraphiteReporter(graphiteHost.get, graphitePort.get,
-        graphitePrefix.getOrElse(""))
-      reporter.start(1, TimeUnit.SECONDS)
+    if (graphiteHost.isDefined) {
+      val reporter = new GraphiteReporter(graphiteHost.get,
+        conf.getInt("metrics.graphite.port").getOrElse(2003),
+        conf.getString("metrics.graphite.prefix").getOrElse(""))
+      val pollTimeSec = conf.getInt("metrics.graphite.poll.sec").getOrElse(1)
+      reporter.start(pollTimeSec, TimeUnit.SECONDS)
     }
   }
 
