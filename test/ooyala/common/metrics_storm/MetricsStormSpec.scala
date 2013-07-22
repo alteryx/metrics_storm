@@ -37,7 +37,7 @@ class MetricsStormSpec extends FunSpec with ShouldMatchers with MockitoSugar {
       when(context.getThisComponentId).thenReturn("foo")
       when(context.getThisTaskId).thenReturn(5)
       MetricsStorm.getMetricName("metric1", context).toString should equal (
-        "storm:type=taskInfo,scope=foo,name=metric1")
+        "\"storm\":type=\"taskInfo\",scope=\"foo\",name=\"metric1\"")
     }
   }
 }
