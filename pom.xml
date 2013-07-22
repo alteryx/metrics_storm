@@ -19,13 +19,15 @@
 
     <jvm.mem>512m</jvm.mem>
 
-    <storm.version>0.8.1-csd-6</storm.version>
+    <storm.version>0.8.2-csd-2</storm.version>
     <slf4j.version>1.7.2</slf4j.version>
-    <metrics.version>2.1.5</metrics.version>
+    <metrics.version>2.2.0</metrics.version>
 
     <deb.install.path>/usr/share/metrics_storm</deb.install.path>
     <deb.architecture>all</deb.architecture>
     <deb.maintainer>Evan Chan &lt;velvia@gmail.com&gt;</deb.maintainer>
+
+    <jackson.version>2.2.2</jackson.version>
   </properties>
 
   <scm>
@@ -99,6 +101,16 @@
       <artifactId>storm</artifactId>
       <version>${storm.version}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
     </dependency>
   </dependencies>
   <repositories>
