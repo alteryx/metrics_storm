@@ -18,6 +18,7 @@ class MetricsStormHooks extends BaseTaskHook {
   override def prepare(config: java.util.Map[_, _], context: TopologyContext) {
     MetricsStorm.initWebConsoleFromTask(config, context)
     MetricsStorm.setupTaskMetrics(context)
+    MetricsStorm.connectReporters(config, context)
   }
 
   override def cleanup() {
